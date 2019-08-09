@@ -28,15 +28,37 @@ public class MaxValueTest {
     public static int getMaxTree(int[][] array) {
         int len = array.length;
         int[][] max = new int[len][len];
+
+        int[][] path = new int[len][len];
+
         for (int i = 0; i < len; i++) {
             max[len - 1][i] = array[len - 1][i];
         }
 
         for (int i = len - 2; i >= 0; i--) {
             for (int j = 0; j <= i; j++) {
-                max[i][j] = Math.max(max[i + 1][j], max[i + 1][j + 1]) + array[i][j];
+                if (max[i + 1][j] > max[i + 1][j + 1]) {
+                    max[i][j] = max[i + 1][j] + array[i][j];
+                    path[i][j] = j;
+                } else {
+                    max[i][j] = max[i + 1][j + 1] + array[i][j];
+                    path[i][j] = j + 1;
+                }
             }
         }
+
+        System.out.println("最大数值和为：" + max[0][0]);
+
+        System.out.print("路径为：" + array[0][0]);
+
+        int k = path[0][0];
+
+        for (int i = 1; i <= len - 1; i++) {
+            System.out.print("->" + array[i][k]);
+            k = path[i][k];
+        }
+
+        System.out.println("\n=======>>>>>>>>>>>>");
 
         return max[0][0];
     }
